@@ -225,39 +225,39 @@ if __name__ == "__main__":
             if not ret:
                 break
                     # Convert BGR to RGB
-        image_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-        result = pose.process(image_rgb)
+            image_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            result = pose.process(image_rgb)
             # Convert back to BGR for display
-        image_bgr = cv2.cvtColor(image_rgb, cv2.COLOR_RGB2BGR)
+            image_bgr = cv2.cvtColor(image_rgb, cv2.COLOR_RGB2BGR)
 
     
 
         # Run face detector
-        with torch.no_grad():
-            detected_faces = sfd_detector.detect_from_image(frame[:, :, ::-1])
+            with torch.no_grad():
+                detected_faces = sfd_detector.detect_from_image(frame[:, :, ::-1])
 
         # If at least one face is detected, run emotion recognition on the first face
-        if len(detected_faces) > 0:
-            bbox = np.array(detected_faces[0]).astype(np.int32)
+            if len(detected_faces) > 0:
+                bbox = np.array(detected_faces[0]).astype(np.int32)
 
-            face_crop = frame[bbox[1]: bbox[3], bbox[0]: bbox[2], :]
-            emotion_prediction = run_emonet(emonet, face_crop.copy())
+                face_crop = frame[bbox[1]: bbox[3], bbox[0]: bbox[2], :]
+                emotion_prediction = run_emonet(emonet, face_crop.copy())
 
-            visualization_bgr = make_visualization(
-                frame.copy(), face_crop.copy(), bbox, emotion_prediction
-            )
+                visualization_bgr = make_visualization(
+                    frame.copy(), face_crop.copy(), bbox, emotion_prediction
+                )
 
             # Display the resulting frame with emotions
-            cv2.imshow("Emotion Detection", visualization_bgr)
+                cv2.imshow("Emotion Detection", visualization_bgr)
 
-        else:
+            else:
             # If no face detected, display the raw frame
-            cv2.imshow("Emotion Detection", frame)
+                cv2.imshow("Emotion Detection", frame)
 
         # Break the loop if the 'q' key is pressed
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+                break
 
     # Release the webcam and close all windows
-    cap.release()
-    cv2.destroyAllWindows()
+        cap.release()
+        cv2.destroyAllWindows()
