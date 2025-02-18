@@ -185,7 +185,7 @@ if __name__ == "__main__":
     # Parameters of the experiments
     n_expression = 8  # You can choose 5 or 8
     device = "cuda:0" if torch.cuda.is_available() else "cpu"
-    image_size = 256
+    image_size = 128
     emotion_classes = {
         0: "Neutral",
         1: "Happy",
